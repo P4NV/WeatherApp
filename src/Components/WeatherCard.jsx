@@ -1,37 +1,77 @@
-import { useState, useEffect } from 'react'
+import { useState } from "react";
+import { useWeatherSearch } from "./Hooks/useWeatherSearch.js";
 
-function WeatherCard({ city }) {
-    const [data, setData] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
-
-    useEffect(() => {
-        if (!city) return
-
-        setLoading(true)
-        setError(null)
-
-        fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=MD4ZUZL48UTKCMHCR7PB7DLVC&unitGroup=metric&contentType=json`)
-            .then(res => {
-                if (!res.ok) throw new Error('City not found')
-                return res.json()
-            })
-            .then(json => setData(json))
-            .catch(err => setError(err.message))
-            .finally(() => setLoading(false))
-    }, [city])
-
-    if (!city) return null
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>{error}</p>
+export default function WeatherCard() {
+    const [cityInput, setCityInput] = useState("");
+    const {data, loading, error} = useWeatherSearch(cityInput);
 
     return (
-        <div>
-            <h2 className="text-5xl font-black">{data.resolvedAddress}</h2>
-            <p className="text-3xl font-semibold">{data.currentConditions.temp}°C</p>
-            <p className="text-3xl font-semibold">{data.days[0].conditions}</p>
-        </div>
-    )
-}
+        <div className="max-w-2xl mx-auto p-6">
+            <h1 className="text-3xl font-bold mb-4">Weather Search</h1>
+            <input
+                type="text"
+                value={cityInput}
+                onChange={(e) => {setCityInput(e.target.value);}}
+                placeholder="Enter city name..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            />
+            {loading && (
+                <div className="mt-4 text-gray-600">
+                    <p>Loading weather for {cityInput}...</p>
+                </div>
+            )}
+            {error && (
+                <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <p className="font-semibold">Error:</p>
+                    <p>{error}</p>
+                </div>
+            )}
+            {data && !loading && (
+                <div className="mt-6">
+                    <h2 className="text-xl font-semibold mb-2">
+                        <p>{data.location.name}</p>
+                        <p>{data.location.country}</p>
+                    </h2>
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="p-4 bg-blue-50 rounded-lg">
+                            <p className="text-sm text-gray-600">Temperature</p>
+                            <p className="text-2xl font-bold">
+                                {data.weather.hourly.temperature_2m[0]}
+                                °C
+                            </p>
+                        </div>
 
-export default WeatherCard
+                        <div className="p-4 bg-blue-50 rounded-lg">
+                            <p className="text-sm text-gray-600">Rain</p>
+                            <p className="text-2xl font-bold">
+                                {data.weather.hourly.rain[0]}
+                                mm
+                            </p>
+                        </div>
+
+                        <div className="p-4 bg-blue-50 rounded-lg">
+                            <p className="text-sm text-gray-600">Cloud Cover</p>
+                            <p className="text-2xl font-bold">
+                                {data.weather.hourly.cloud_cover[0]}
+                                %
+                            </p>
+                        </div>
+
+                        <div className="p-4 bg-blue-50 rounded-lg">
+                            <p className="text-sm text-gray-600">Wind Speed</p>
+                            <p className="text-2xl font-bold">
+                                {data.weather.hourly.wind_speed_10m[0]}
+                                km/h
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {!cityInput && !data && !loading && (
+                <div className="mt-4 text-gray-500">
+                    <p>Type a city name to see the weather</p>
+                </div>
+            )}
+        </div>
+    );
+}
