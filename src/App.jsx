@@ -5,9 +5,10 @@ import WeatherCard from "./Components/WeatherCard.jsx";
 export default function App() {
 
     return (
-    <div className="flex flex-col items-center  ">
-        <h1 className="mb-10">My App</h1>
-        <WeatherCard />
+    <div className="flex flex-col items-center w-screen h-screen">
+        <div className="flex flex-col items-center justify-center mt-20 h-full">
+            <WeatherCard />
+        </div>
     </div>
   )
 }
