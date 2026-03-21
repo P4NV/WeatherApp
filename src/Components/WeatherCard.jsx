@@ -6,11 +6,12 @@ export default function WeatherCard() {
     const [cityInput, setCityInput] = useState("");
     const [selectedDay, setSelectedDay] = useState(0);
     const {data, loading, error} = useWeatherSearch(cityInput);
+    const [isVisible, setIsVisible] = useState(true);
 
     return (
-        <div className="flex flex-col flex-wrap w-screen h-full justify-center">
-            <div className="h-full w-1/4 flex justify-center items-start p-5 ">
-                <div className="max-w-2xl max-h-2/4  p-6 border-2 rounded-3xl shadow-2xl shadow-red-900 md:overflow-auto">
+        <div className="flex flex-col flex-wrap w-screen h-full justify-start">
+            <div className="h-full w-1/4 flex justify-center items-start mx-20 p-5 ">
+                <div className="max-w-2xl max-h-2/4 p-6 shadow-2xl bg-gray-200 border-t-4 shadow-blue-300 rounded-3xl md:overflow-auto">
                     <h1 className="text-3xl font-bold mb-4">Weather Search</h1>
                     <input
                         type="text"
@@ -79,7 +80,7 @@ export default function WeatherCard() {
                 </div>
             </div>
         {/* CHART COMPONENT */}
-            <div className="max-w-3xl flex-col ">
+            <div className=" flex-col justify-center items-center px-20 py-15 ">
                 {data && !loading && (() => {
                     // Get total days available
                     const totalHours = data.weather.hourly.time.length;
@@ -97,30 +98,42 @@ export default function WeatherCard() {
                         }));
 
                     return (
-                        <div className="flex flex-col items-center  " >
+                        <div className="flex flex-col items-center justify-center" >
                             {/* Day selector buttons */}
-                            <div className="flex justify-center gap-4 mb-5">
+                            <div className="flex justify-center items-center bg-gray-200 border-t-3 shadow-lg shadow-blue-300 rounded-3xl p-2 gap-5 mb-5">
                                 {[...Array(totalDays)].map((_, dayIndex) => (
                                     <button
                                         key={dayIndex}
-                                        onClick={() => setSelectedDay(dayIndex)}
-                                        className={`px-4 py-2 rounded-lg ${
+                                        onClick={() => {
+                                            setIsVisible(false);
+                                            setTimeout(() => {
+                                                setSelectedDay(dayIndex);
+                                                setIsVisible(true);
+                                            }, 150);
+                                        }}
+                                        className={`transition-all duration-100 ease-in px-4 py-1.5 rounded-2xl text-center ${
                                             selectedDay === dayIndex
-                                                ? 'bg-blue-500 text-white'
-                                                : 'bg-gray-200 hover:bg-gray-300'
+                                                ? 'transition-colors duration-200 ease-in bg-blue-500 border-t-3 border-black text-white'
+                                                : 'bg-gray-200 border-b-3 hover:bg-blue-500/50 hover:border-t-3 hover:border-b-0'
                                         }`}
                                     >
                                         {dayIndex === 0 ? 'Today' : `Day ${dayIndex + 1}`}
                                     </button>
                                 ))}
                             </div>
-
-                            <LineChart width={700} height={300} data={chartData}>
-                                <XAxis dataKey="time" />
-                                <YAxis />
-                                <Tooltip />
-                                <Line type="monotone" dataKey="temp" stroke="#3b82f6" strokeWidth={2} />
-                            </LineChart>
+                            <div className={`transition-opacity duration-100 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                                <LineChart width={750} height={320} data={chartData}>
+                                    <XAxis stroke="white" dataKey="time" />
+                                    <YAxis stroke="white" />
+                                    <Tooltip />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="temp"
+                                        stroke="#3b82f6"
+                                        strokeWidth={3}
+                                    />
+                                </LineChart>
+                            </div>
                         </div>
 
                     );
