@@ -8,13 +8,15 @@ export default function App() {
     // const weatherGradient = `radial-gradient(circle at 50% -20%,#f1f5f9 0%,#cbd5e1 25%,#94a3b8 50%,#64748b 75%,#475569 100%)`;
 
     return (
-    <div className="flex flex-col items-center w-screen h-screen"
+    <div className="flex flex-col items-center w-screen min-h-screen"
          style={{background: weatherGradient,
                  backgroundSize: '150% 100%',
                  backgroundPosition: 'center center',
          }}>
         <div className="flex flex-col items-center w-screen">
-            <h1 className="text-7xl p-10 text-white text-shadow-md text-shadow-black font-extrabold">Weatheo</h1>
+            <h1 className="text-7xl p-10 text-white-250 text-shadow-lg text-shadow-mist-600 font-extrabold">
+                Weatheo
+            </h1>
         </div>
         <div className="flex flex-col items-center justify-center h-full">
             <WeatherCard />

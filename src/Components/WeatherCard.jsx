@@ -9,16 +9,16 @@ export default function WeatherCard() {
     const [isVisible, setIsVisible] = useState(true);
 
     return (
-        <div className="flex flex-col flex-wrap w-screen h-full justify-start">
-            <div className="h-full w-1/4 flex justify-center items-start mx-20 p-5 ">
-                <div className="max-w-2xl max-h-2/4 p-6 shadow-2xl bg-gray-200 border-t-4 shadow-blue-300 rounded-3xl md:overflow-auto">
-                    <h1 className="text-3xl font-bold mb-4">Weather Search</h1>
+        <div className="flex flex-row flex-wrap w-screen gap-20 h-full ">
+            <div className="h-full w-1/4 flex justify-center items-start mx-30 pt-20 ">
+                <div className="max-w-2xl max-h-2/3 p-6 shadow-lg bg-white/25 border-t-4 shadow-white/40 rounded-3xl md:overflow-auto">
+                    <h1 className="text-3xl text-white font-semibold mb-4 text-shadow-xs text-shadow-mist-600">Weather Search</h1>
                     <input
                         type="text"
                         value={cityInput}
                         onChange={(e) => {setCityInput(e.target.value);}}
                         placeholder="Enter city name..."
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        className="w-full text-white font-semibold px-4 py-2 border border-gray-300 rounded-xl"
                     />
                     {loading && (
                         <div className="mt-4 text-gray-600">
@@ -33,8 +33,9 @@ export default function WeatherCard() {
                     )}
                     {data && !loading && (
                         <div className="mt-6">
-                            <h2 className="text-xl font-semibold mb-2">
+                            <h2 className="text-xl text-white font-semibold mb-2">
                                 <p>{data.location.name}</p>
+                                <hr className="max-w-3/5 mt-1"/>
                                 <p>{data.location.country}</p>
                             </h2>
                             <div className="grid grid-cols-2 gap-4 mt-4 ">
@@ -80,7 +81,7 @@ export default function WeatherCard() {
                 </div>
             </div>
         {/* CHART COMPONENT */}
-            <div className=" flex-col justify-center items-center px-20 py-15 ">
+            <div className=" flex-col justify-center items-center mr-20 mt-5 ">
                 {data && !loading && (() => {
                     // Get total days available
                     const totalHours = data.weather.hourly.time.length;
@@ -98,9 +99,9 @@ export default function WeatherCard() {
                         }));
 
                     return (
-                        <div className="flex flex-col items-center justify-center" >
+                        <div className="flex flex-col border-t-8 rounded-4xl pr-5 bg-white/15 shadow-white/40 shadow-md  items-center justify-center my-20" >
                             {/* Day selector buttons */}
-                            <div className="flex justify-center items-center bg-gray-200 border-t-3 shadow-lg shadow-blue-300 rounded-3xl p-2 gap-5 mb-5">
+                            <div className="flex justify-center items-center bg-white-250 border-t-3 shadow-lg shadow-white/60 rounded-3xl p-2 gap-5 mb-5">
                                 {[...Array(totalDays)].map((_, dayIndex) => (
                                     <button
                                         key={dayIndex}
