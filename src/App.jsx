@@ -18,7 +18,7 @@ export default function App() {
                 Weatheo
             </h1>
         </div>
-        <div className="flex flex-col items-center justify-center h-full">
+        <div className="flex flex-col items-center justify-center h-full max-lg:flex-row">
             <WeatherCard />
         </div>
     </div>

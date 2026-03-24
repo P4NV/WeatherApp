@@ -101,7 +101,7 @@ export default function WeatherCard() {
                     return (
                         <div className="flex flex-col border-t-8 rounded-4xl pr-5 bg-white/15 shadow-white/40 shadow-md  items-center justify-center my-20" >
                             {/* Day selector buttons */}
-                            <div className="flex justify-center items-center bg-white-250 border-t-3 shadow-lg shadow-white/60 rounded-3xl p-2 gap-5 mb-5">
+                            <div className="flex justify-center items-center bg-white/25 border-t-3 shadow-lg shadow-white/40 rounded-3xl p-2 gap-5 mb-5">
                                 {[...Array(totalDays)].map((_, dayIndex) => (
                                     <button
                                         key={dayIndex}
@@ -115,7 +115,7 @@ export default function WeatherCard() {
                                         className={`transition-all duration-100 ease-in px-4 py-1.5 rounded-2xl text-center ${
                                             selectedDay === dayIndex
                                                 ? 'transition-colors duration-200 ease-in bg-blue-500 border-t-3 border-black text-white'
-                                                : 'bg-gray-200 border-b-3 hover:bg-blue-500/50 hover:border-t-3 hover:border-b-0'
+                                                : 'bg-white/60 border-b-3 hover:bg-blue-500/50 hover:border-t-3 hover:border-b-0'
                                         }`}
                                     >
                                         {dayIndex === 0 ? 'Today' : `Day ${dayIndex + 1}`}
