@@ -9,8 +9,8 @@ export default function WeatherCard() {
     const [isVisible, setIsVisible] = useState(true);
 
     return (
-        <div className="flex flex-row flex-wrap w-screen gap-20 h-full ">
-            <div className="h-full w-1/4 flex justify-center items-start mx-30 pt-20 ">
+        <div className="flex flex-row flex-nowrapwrap justify-center items-center w-screen h-full ">
+            <div className="h-full w-1/4 flex justify-center items-start mx-30 pt-0 ">
                 <div className="max-w-2xl max-h-2/3 p-6 shadow-lg bg-white/25 border-t-4 shadow-white/40 rounded-3xl md:overflow-auto">
                     <h1 className="text-3xl text-white font-semibold mb-4 text-shadow-xs text-shadow-mist-600">Weather Search</h1>
                     <input
